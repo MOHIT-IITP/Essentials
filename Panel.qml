@@ -7,7 +7,7 @@ import qs.Ui
 
 Panel {
   id: root
-  moduleName: "information-holder"
+  moduleName: "io.github.mohiitp.essentials"
   manageIpc: false
   property var anchorItem: null
   property var hostWidget: null
@@ -21,7 +21,7 @@ Panel {
   property bool statusIsError: false
   property string pendingCopy: ""
   readonly property string stateDirectory: Quickshell.env("HOME") + "/.local/state/omarchy"
-  readonly property string statePath: stateDirectory + "/information-holder.json"
+  readonly property string statePath: stateDirectory + "/io.github.mohiitp.essentials.json"
   readonly property color contentForeground: Color.popups.text
   readonly property color accentColor: Color.accent
   readonly property color mutedForeground: Qt.rgba(contentForeground.r, contentForeground.g, contentForeground.b, 0.55)
@@ -104,7 +104,7 @@ Panel {
   }
   Process {
     id: copyProcess
-    command: ["bash", "-c", "printf %s \"$1\" | wl-copy", "information-holder-copy", root.pendingCopy]
+    command: ["bash", "-c", "printf %s \"$1\" | wl-copy", "io.github.mohiitp.essentials-copy", root.pendingCopy]
   }
   Timer {
     id: statusTimer

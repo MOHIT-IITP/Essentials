@@ -1,16 +1,20 @@
 {
   "schemaVersion": 1,
-  "id": "information-holder",
+  "id": "io.github.mohiitp.essentials",
   "name": "Essentials",
   "version": "1.0.0",
-  "author": "Local user plugin",
-  "description": "Store, copy, and paste your go-to details.",
+  "author": "Mohit (mohiitp)",
+  "license": "MIT",
+  "description": "Private, copy-ready personal details in your bar: emails, phone numbers, profile links, addresses, and custom entries stored only on your machine.",
   "kinds": ["bar-widget"],
-  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
   "barWidget": {
     "displayName": "Essentials",
-    "description": "Store, search, organize, and copy personal information.",
+    "description": "Store, search, organize, and copy personal information from a bar panel.",
     "category": "Utilities",
+    "defaultSection": "right",
     "allowMultiple": false
   }
 }
