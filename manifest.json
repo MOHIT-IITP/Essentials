@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "information-holder",
+  "name": "Essentials",
+  "version": "1.0.0",
+  "author": "Local user plugin",
+  "description": "Store, copy, and paste your go-to details.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": {
+    "displayName": "Essentials",
+    "description": "Store, search, organize, and copy personal information.",
+    "category": "Utilities",
+    "allowMultiple": false
+  }
+}
