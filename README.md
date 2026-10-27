@@ -7,6 +7,8 @@ and free-form values. Everything stays on your machine.
 Essentials is an [Omarchy](https://omarchy.org/) shell plugin (bar widget +
 panel) built with Quickshell.
 
+![Essentials panel preview](preview.png)
+
 ## Features
 
 - One bar icon with a searchable panel of saved entries.
