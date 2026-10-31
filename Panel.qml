@@ -169,8 +169,8 @@ Panel {
           width: parent.width
           spacing: Style.space(7)
           Item {
-            width: Style.font.icon
-            height: Style.font.icon
+            width: Style.space(18)
+            height: Style.space(18)
             anchors.verticalCenter: parent.verticalCenter
             Image {
               id: panelHeaderIcon

@@ -40,16 +40,18 @@ BarWidget {
     bar: root.bar
     text: ""
     tooltipText: "Essentials"
+    opticalSize: Style.space(20)
     iconComponent: Component {
       Item {
+        anchors.fill: parent
         Image {
           id: svgIcon
           anchors.centerIn: parent
+          width: parent.width
+          height: parent.height
           source: Qt.resolvedUrl("icon.svg")
-          width: Style.bar.iconCanvas
-          height: Style.bar.iconCanvas
-          sourceSize.width: Style.bar.iconCanvas * 2
-          sourceSize.height: Style.bar.iconCanvas * 2
+          sourceSize.width: width * 2
+          sourceSize.height: height * 2
           fillMode: Image.PreserveAspectFit
           visible: false
           layer.enabled: true
