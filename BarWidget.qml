@@ -40,7 +40,7 @@ BarWidget {
     bar: root.bar
     text: ""
     tooltipText: "Essentials"
-    opticalSize: Style.space(20)
+    opticalSize: Style.space(22)
     iconComponent: Component {
       Item {
         anchors.fill: parent
