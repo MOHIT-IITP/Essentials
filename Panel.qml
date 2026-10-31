@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import qs.Commons
@@ -167,13 +168,27 @@ Panel {
         Row {
           width: parent.width
           spacing: Style.space(7)
-          Text {
-            text: "󰈙"
-            opacity: 0.65
-            color: root.contentForeground
-            font.family: root.contentFontFamily
-            font.pixelSize: Style.font.icon
+          Item {
+            width: Style.font.icon
+            height: Style.font.icon
             anchors.verticalCenter: parent.verticalCenter
+            Image {
+              id: panelHeaderIcon
+              anchors.fill: parent
+              source: Qt.resolvedUrl("icon.svg")
+              sourceSize.width: width * 2
+              sourceSize.height: height * 2
+              fillMode: Image.PreserveAspectFit
+              visible: false
+              layer.enabled: true
+            }
+            MultiEffect {
+              source: panelHeaderIcon
+              anchors.fill: panelHeaderIcon
+              colorization: 1.0
+              colorizationColor: root.contentForeground
+              opacity: 0.75
+            }
           }
           Text {
             text: "Essentials"

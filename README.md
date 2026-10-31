@@ -63,7 +63,7 @@ omarchy plugin list
 
 ## Use
 
-1. Click the `󰈙` icon in the bar to open or close the panel.
+1. Click the Essentials icon in the bar to open or close the panel.
 2. Click an entry to copy its value.
 3. Select **+** to create an entry; labels, values, and groups are editable.
 4. Type in the search field to filter entries. Search is focused when the
