@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import qs.Commons
 import qs.Ui
 
@@ -37,8 +38,30 @@ BarWidget {
     id: button
     anchors.fill: parent
     bar: root.bar
-    text: "󰈙"
+    text: ""
     tooltipText: "Essentials"
+    iconComponent: Component {
+      Item {
+        Image {
+          id: svgIcon
+          anchors.centerIn: parent
+          source: Qt.resolvedUrl("icon.svg")
+          width: Style.bar.iconCanvas
+          height: Style.bar.iconCanvas
+          sourceSize.width: Style.bar.iconCanvas * 2
+          sourceSize.height: Style.bar.iconCanvas * 2
+          fillMode: Image.PreserveAspectFit
+          visible: false
+          layer.enabled: true
+        }
+        MultiEffect {
+          source: svgIcon
+          anchors.fill: svgIcon
+          colorization: 1.0
+          colorizationColor: root.bar ? root.bar.barForeground : "#ffffff"
+        }
+      }
+    }
     onPressed: function(button) { if (button === Qt.LeftButton) root.toggle() }
   }
 }

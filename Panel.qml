@@ -17,11 +17,13 @@ Panel {
   property bool editing: false
   property int editingIndex: -1
   property bool stateDirectoryReady: false
+  property bool pendingSave: false
   property string statusText: ""
   property bool statusIsError: false
   property string pendingCopy: ""
   readonly property string stateDirectory: Quickshell.env("HOME") + "/.local/state/omarchy"
   readonly property string statePath: stateDirectory + "/io.github.mohiitp.essentials.json"
+  readonly property string legacyStatePath: stateDirectory + "/information-holder.json"
   readonly property color contentForeground: Color.popups.text
   readonly property color accentColor: Color.accent
   readonly property color mutedForeground: Qt.rgba(contentForeground.r, contentForeground.g, contentForeground.b, 0.55)
@@ -53,7 +55,7 @@ Panel {
   }
   function saveState(nextEntries) {
     entries = nextEntries
-    if (!stateDirectoryReady) { flashStatus("Preparing local storage…"); return }
+    if (!stateDirectoryReady) { pendingSave = true; flashStatus("Preparing local storage…"); return }
     stateFile.setText(JSON.stringify({ version: 1, entries: entries }, null, 2) + "\n")
   }
   function startNewEntry() {
@@ -85,7 +87,12 @@ Panel {
     var entry = filteredEntries[index]; if (!entry) return
     saveState(entries.filter(function(candidate) { return candidate.id !== entry.id })); flashStatus("Deleted " + entry.label)
   }
-  function copyValue(value, label) { pendingCopy = value; copyProcess.running = true; flashStatus("Copied " + label) }
+  function copyValue(value, label) {
+    pendingCopy = value
+    copyProcess.running = false
+    copyProcess.running = true
+    flashStatus("Copied " + label)
+  }
 
   FileView {
     id: stateFile
@@ -96,15 +103,40 @@ Panel {
     onLoaded: root.loadState(text())
     onLoadFailed: root.entries = []
     onFileChanged: reload()
+    onSaved: secureStateFileProcess.running = true
+  }
+  Process {
+    id: secureStateFileProcess
+    command: ["bash", "-c", "if [ -e \"$1\" ] && [ \"$(stat -c %a \"$1\" 2>/dev/null)\" != \"600\" ]; then chmod 600 \"$1\"; fi", "io.github.mohiitp.essentials-secure", root.statePath]
   }
   Process {
     id: stateDirectoryProcess
-    command: ["mkdir", "-p", root.stateDirectory]
-    onExited: { root.stateDirectoryReady = true; stateFile.reload() }
+    command: [
+      "bash", "-c",
+      "mkdir -p \"$1\" && if [ ! -e \"$2\" ] && [ -e \"$3\" ]; then mv \"$3\" \"$2\"; fi && if [ ! -e \"$2\" ]; then (umask 077 && printf '{\\n  \"version\": 1,\\n  \"entries\": []\\n}\\n' > \"$2\"); fi && chmod 600 \"$2\"",
+      "io.github.mohiitp.essentials-init",
+      root.stateDirectory,
+      root.statePath,
+      root.legacyStatePath
+    ]
+    onExited: function(exitCode) {
+      if (exitCode === 0) {
+        root.stateDirectoryReady = true
+        stateFile.reload()
+        if (root.pendingSave) {
+          root.pendingSave = false
+          root.saveState(root.entries)
+        }
+      } else {
+        root.showError("Could not initialize secure storage")
+      }
+    }
   }
   Process {
     id: copyProcess
-    command: ["bash", "-c", "printf %s \"$1\" | wl-copy", "io.github.mohiitp.essentials-copy", root.pendingCopy]
+    command: ["bash", "-c", "val=\"$ESSENTIALS_COPY_VALUE\"; unset ESSENTIALS_COPY_VALUE; printf %s \"$val\" | wl-copy", "io.github.mohiitp.essentials-copy"]
+    environment: ({ "ESSENTIALS_COPY_VALUE": root.pendingCopy })
+    onExited: root.pendingCopy = ""
   }
   Timer {
     id: statusTimer
