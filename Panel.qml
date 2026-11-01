@@ -191,6 +191,7 @@ Panel {
             }
           }
           Text {
+            textFormat: Text.PlainText
             text: "Essentials"
             color: root.contentForeground
             font.family: root.contentFontFamily
@@ -231,6 +232,7 @@ Panel {
           width: parent.width
           spacing: Style.space(6)
           Text {
+            textFormat: Text.PlainText
             text: root.editingIndex >= 0 ? "EDIT ENTRY" : "NEW ENTRY"
             color: root.mutedForeground
             font.family: root.contentFontFamily
@@ -307,6 +309,7 @@ Panel {
             width: parent.width
             spacing: Style.space(2)
             Text {
+              textFormat: Text.PlainText
               visible: root.filteredEntries.length === 0
               width: parent.width
               text: root.entries.length === 0 ? "No entries yet. Use + to add one." : "No matching entries."
@@ -349,6 +352,7 @@ Panel {
                     width: parent.width
                     spacing: Style.space(8)
                     Text {
+                      textFormat: Text.PlainText
                       width: Math.max(0, parent.width - groupLabel.width - parent.spacing)
                       text: entryRow.modelData.label
                       color: root.contentForeground
@@ -358,6 +362,7 @@ Panel {
                     }
                     Text {
                       id: groupLabel
+                      textFormat: Text.PlainText
                       text: entryRow.modelData.group
                       color: root.mutedForeground
                       font.family: root.contentFontFamily
@@ -369,6 +374,7 @@ Panel {
                     width: parent.width
                     spacing: Style.space(6)
                     Text {
+                      textFormat: Text.PlainText
                       width: Math.max(0, parent.width - entryActions.width - parent.spacing)
                       text: entryRow.modelData.value
                       color: root.mutedForeground
@@ -415,6 +421,7 @@ Panel {
           }
         }
         Text {
+          textFormat: Text.PlainText
           width: parent.width
           text: root.statusText !== ""
             ? root.statusText
